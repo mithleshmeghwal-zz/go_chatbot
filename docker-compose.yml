@@ -1,0 +1,10 @@
+version: '3'
+services:
+  go-docker-boilerplate:
+    build: .
+    command: ["go", "run", "main.go"]
+    volumes:
+      - .:/go/src/go-docker-boilerplate
+    ports:
+      - "80:8080"
+
