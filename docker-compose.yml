@@ -1,10 +1,23 @@
 version: '3'
 services:
-  go-docker-boilerplate:
+  redis:
+    image: "redis:alpine"
+    networks: 
+      - backend
+  server:
     build: .
-    command: ["go", "run", "main.go"]
+    environment:
+      - PAGE_ACCESS_TOKEN=EAAghoEKyd5cBAGderxFSyBm96pUU2iGNC4tbAMw8s1iVYRaiIwedtfq5ZArvGZBS5hpAnEGavOzhlA33fTTFm0ysE5OTKDqeuklAlzsPa6Y6FFCZC4QEkqjxNZBcjdqm17DGywGjD2ojuff36zh4dn5skAWLoXNfDWvFtWc44SFSoUWn0VUJ
+      - VERIFY_TOKEN=echo
     volumes:
-      - .:/go/src/go-docker-boilerplate
+      - .:/go/src/chatbot
+    links:
+      - redis
     ports:
       - "80:8080"
-
+    networks: 
+      - backend
+    depends_on:
+      - redis
+networks:
+  backend:
