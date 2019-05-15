@@ -35,7 +35,7 @@ func ping(c redis.Conn) error {
 	if err != nil {
 		return err
 	}
-	log.Println("PING Response = %s\n", s)
+	log.Println("PING Response = \n", s)
 	return err
 }
 
