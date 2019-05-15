@@ -9,5 +9,3 @@ RUN go get -v
 
 RUN  go get github.com/githubnemo/CompileDaemon
 RUN go get	github.com/gorilla/mux
-
-ENTRYPOINT CompileDaemon -log-prefix=false -build="go build -o chatbot" -command="./chatbot"

@@ -19,5 +19,6 @@ services:
       - backend
     depends_on:
       - redis
+    entrypoint: CompileDaemon -log-prefix=false -build="go build -o chatbot" -command="./chatbot"
 networks:
   backend:

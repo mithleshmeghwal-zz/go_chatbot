@@ -8,12 +8,10 @@ import (
 	"net/url"
 )
 
-var a App
+var app App
 
 func TestMain(m *testing.M) {
-	a = App{}
-	a.CreateRoutes()
-
+	app = a
 	code := m.Run()
 
 	os.Exit(code)
@@ -41,7 +39,7 @@ func TestVerificationEndpoint(t *testing.T) {
 
 func executeRequest(req *http.Request) *httptest.ResponseRecorder {
 	rr := httptest.NewRecorder()
-	a.R.ServeHTTP(rr, req)
+	app.R.ServeHTTP(rr, req)
 
 	return rr
 }

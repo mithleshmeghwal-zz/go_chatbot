@@ -4,6 +4,9 @@ package main
 
 func main() {
 	a := App{}
-	a.CreateRoutes()
+	err := a.CreateRoutes()
+	if err != nil {
+		panic(err)
+	}
 	a.Run()
 }

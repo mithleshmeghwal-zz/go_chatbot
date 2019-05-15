@@ -13,11 +13,12 @@ type App struct {
 	R *mux.Router
 }
 
-func (a *App)CreateRoutes() {
+func (a *App)CreateRoutes() error {
 
 	conn , err := ConnectDatabase("redis", "6379")
 	if err != nil {
-		log.Fatal(err)
+		return err
+
 	}
 	routes := router.Router {
 		Conn: conn,
@@ -27,7 +28,7 @@ func (a *App)CreateRoutes() {
 
 	a.R.HandleFunc("/webhook", a.Routes.VerificationEndpoint).Methods("GET")
 	a.R.HandleFunc("/webhook", a.Routes.MessagesEndpoint).Methods("POST")
-	
+	return nil	
 }
 
 func (a *App) Run() {
