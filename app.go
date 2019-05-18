@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
-
+	"time"
 	"chatbot/router"
 	"github.com/gorilla/mux"
 )
@@ -25,9 +25,18 @@ func (a *App)CreateRoutes() {
 	a.Routes = routes
 	a.R = mux.NewRouter()
 
-	a.R.HandleFunc("/webhook", a.Routes.VerificationEndpoint).Methods("GET")
-	a.R.HandleFunc("/webhook", a.Routes.MessagesEndpoint).Methods("POST")
+	a.R.HandleFunc("/webhook", Logger(a.Routes.VerificationEndpoint)).Methods("GET")
+	a.R.HandleFunc("/webhook", Logger(a.Routes.MessagesEndpoint)).Methods("POST")
 	
+}
+
+func Logger(h http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter ,r *http.Request) {
+		start := time.Now()
+		h(w,r)
+		end := time.Since(start)
+		log.Printf("%s %s %v", r.Method, r.URL.Path, end)
+	} 
 }
 
 func (a *App) Run() {
