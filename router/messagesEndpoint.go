@@ -22,7 +22,7 @@ func (a *Router)MessagesEndpoint(w http.ResponseWriter, r *http.Request) {
 	if callback.Object == "page" {
 		for _, entry := range callback.Entry {
 			for _, event := range entry.Messaging {
-				ProcessMessage(event, a.Conn)
+				go ProcessMessage(event, a.Conn)
 			}
 		}
 		w.WriteHeader(200)
@@ -40,7 +40,7 @@ func ProcessMessage(event models.Messaging, conn redis.Conn) {
 	counter := 1
 	value, err := redis.String(conn.Do("GET", event.Sender.ID))
 	if err == nil {
-		log.Println("GET", value)
+		// log.Println("GET", value)
 		counter, err = strconv.Atoi(value)
 		if err != nil {
 			log.Println("Corrupted Data")
